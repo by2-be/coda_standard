@@ -162,6 +162,7 @@ module CodaStandard
 
     def clean_zeros(amount)
       amount[0] == "0" ? amount_sign = "" : amount_sign = "-"
+      amount = amount[1..-1]
       amount_integral = amount.scan(CLEAN_FIELDS[:clean_zeros])[0][0]
       amount_decimals = amount.scan(CLEAN_FIELDS[:clean_zeros])[0][1]
       separator = "."
