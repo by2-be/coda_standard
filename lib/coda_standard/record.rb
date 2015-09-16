@@ -18,7 +18,7 @@ module CodaStandard
 
     CLEAN_FIELDS = {
       clean_zeros: /0*(\d+)(\d{3})/,
-      sep_address: /(^.+)(\d{4})\s(\S+)(\s\S+)?$/,
+      sep_address: /(^.+)(\d{4})\s+(\S+)(\s\S+)?$/,
       sep_account: /(^.)(.{3})(.+)/,
       clean_structured: /.{3}(.{12})/,
       bban_be_account: /(^.{12})/,
