@@ -10,6 +10,7 @@ describe CodaStandard::Record do
   let(:data_movement2_record) {  CodaStandard::Record.new("2200010000                                                                                        GKCCBEBB                   1 0")}
   let(:data_movement3_record) {  CodaStandard::Record.new("2300010000BE53900754703405                  EURLASTNM PERSON                                                                 0 1")}
   let(:data_information2_record) {  CodaStandard::Record.new("32000200015 STREET                                     3654 CITY BELGIQUE                                                    0 0")}
+  let(:data_information2b_record) {  CodaStandard::Record.new("32000200015 STREET                                     3654    CITY BELGIQUE                                                    0 0")}
 
   describe "data_header" do
     it "returns true if the line starts with a zero" do
@@ -152,6 +153,7 @@ describe CodaStandard::Record do
   describe "address" do
     it "extracts the address" do
       expect(data_information2_record.address).to eq({:address=>"5 STREET", :postcode=>"3654", :city=>"CITY", :country=>" BELGIQUE"})
+      expect(data_information2b_record.address).to eq({:address=>"5 STREET", :postcode=>"3654", :city=>"CITY", :country=>" BELGIQUE"})
     end
   end
 
