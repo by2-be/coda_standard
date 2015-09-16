@@ -6,7 +6,7 @@ describe CodaStandard::Record do
   let(:old_balance_data_record) {  CodaStandard::Record.new("10016539007547034 EUR0BE                  0000000057900000300315MMIF SA/EVOCURE                                              017")}
   let(:old_balance_data_record_invalid) {  CodaStandard::Record.new("100/0000/00135")}
   let(:data_movement1_record) {  CodaStandard::Record.new("21000100000001500000103        0000000000500860010415001500001101100000834941                                      31031501601 0")}
-  let(:data_movement1b_record) {  CodaStandard::Record.new("21000100000001500000103        00000000005008600104150015000010UNSTRUCTURED COMMUNICATION MESSAGE                                      31031501601 0")}
+  let(:data_movement1b_record) {  CodaStandard::Record.new("21000100000001500000103        10000000005008600104150015000010UNSTRUCTURED COMMUNICATION MESSAGE                                      31031501601 0")}
   let(:data_movement2_record) {  CodaStandard::Record.new("2200010000                                                                                        GKCCBEBB                   1 0")}
   let(:data_movement3_record) {  CodaStandard::Record.new("2300010000BE53900754703405                  EURLASTNM PERSON                                                                 0 1")}
   let(:data_information2_record) {  CodaStandard::Record.new("32000200015 STREET                                     3654 CITY BELGIQUE                                                    0 0")}
