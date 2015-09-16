@@ -170,7 +170,7 @@ module CodaStandard
       if message[0] == "1"
         message.scan(CLEAN_FIELDS[:clean_structured]).join
       else
-        message[1..-1]
+        message
       end
     end
   end
