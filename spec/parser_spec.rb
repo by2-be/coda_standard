@@ -36,28 +36,16 @@ describe CodaStandard::Parser do
 
   end
 
-  describe "set_address" do
-    before :each do
-      address = { address: "5 RUE DU CENTCINQUANTENAIRE", postcode: "6750", city: "MUSSY-LA-VILLE", country: " BELGIQUE" }
-      parser.set_address(address)
-    end
+ describe "clean address" do
+   before :each do
+     address = "5 STREET 3654 CITY BELGIQUE"
+     parser.set_address(address)
+   end
 
-    it "sets the address field to the current transaction" do
-      expect(parser.current_transaction.address).to eq("5 RUE DU CENTCINQUANTENAIRE")
-    end
-
-    it "sets the postcode field to the current transaction" do
-      expect(parser.current_transaction.postcode).to eq("6750")
-    end
-
-    it "sets the city field to the current transaction" do
-      expect(parser.current_transaction.city).to eq("MUSSY-LA-VILLE")
-    end
-
-    it "sets the country field to the current transaction" do
-      expect(parser.current_transaction.country).to eq(" BELGIQUE")
-    end
-  end
+   it "sets the address field to the current transaction" do
+     expect(parser.current_transaction.address).to eq("5 STREET 3654 CITY BELGIQUE")
+   end
+ end
 
  describe "set_account" do
     before :each do
@@ -87,7 +75,7 @@ describe CodaStandard::Parser do
     end
 
     it "shows the info from the transactions" do
-      expect{ parser.show }.to output("**--Transaction List 1--**\n\nAccount: 539007547034 Account type: bban_be_account BIC: GEBABEBB\nOld balance: 57900.000 \n\n-- Transaction n.1 - number 100000834941 - in date 2015-03-31-- \n\n   RN: 0001500000103 Account: BE53900754703405 BIC: GKCCBEBB\n   Amount: 500,86 EUR\n   Name: LASTNM PERSON\n   Address: CHAUSSEE DE BIERE 10 1978 SOMECITY  \n\n-- Transaction n.2 - number 100000835749 - in date 2015-03-31-- \n\n   RN: 0001500000104 Account: LU539007547034898400 BIC: BILLLULL\n   Amount: 200,00 EUR\n   Name: M.JOHN DOE\n   Address: 5 STREET 3654 CITY  BELGIQUE \n\n").to_stdout
+      expect{ parser.show }.to output("**--Transaction List 1--**\n\nAccount: 539007547034 Account type: bban_be_account BIC: GEBABEBB\nOld balance: 57900.000 \n\n-- Transaction n.1 - number 100000834941 - in date 2015-03-31-- \n\n   RN: 0001500000103 Account: BE53900754703405 BIC: GKCCBEBB\n   Amount: 500,86 EUR\n   Name: LASTNM PERSON\n   Address: CHAUSSEE DE BIERE 10 1978 SOMECITY \n\n-- Transaction n.2 - number 100000835749 - in date 2015-03-31-- \n\n   RN: 0001500000104 Account: LU539007547034898400 BIC: BILLLULL\n   Amount: 200,00 EUR\n   Name: M.JOHN DOE\n   Address: 5 STREET 3654 CITY BELGIQUE \n\n").to_stdout
     end
   end
 

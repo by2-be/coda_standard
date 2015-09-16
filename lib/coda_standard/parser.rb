@@ -43,10 +43,7 @@ module CodaStandard
     end
 
     def set_address(address)
-      @current_transaction.address  = address[:address]
-      @current_transaction.postcode = address[:postcode]
-      @current_transaction.city     = address[:city]
-      @current_transaction.country  = address[:country]
+      @current_transaction.address  = address
     end
 
     def set_account(account)
@@ -92,7 +89,7 @@ module CodaStandard
           puts "   RN: #{transaction.reference_number} Account: #{transaction.account} BIC: #{transaction.bic}"
           puts "   Amount: #{transaction.amount_money}"
           puts "   Name: #{transaction.name}"
-          puts "   Address: #{transaction.address} #{transaction.postcode} #{transaction.city} #{transaction.country} \n\n"
+          puts "   Address: #{transaction.address} \n\n"
         end
       end
     end
