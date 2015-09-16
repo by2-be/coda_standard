@@ -10,7 +10,7 @@ module CodaStandard
     end
 
     def valid?
-      File.open(@filename).each do |line|
+      File.open(@filename, encoding: "ISO-8859-1").each do |line|
         record = Record.new(line)
         return false unless record.valid?
       end
@@ -19,7 +19,7 @@ module CodaStandard
 
     def parse(skip_validation: skip_validation = false)
       return [] if !skip_validation && !valid?
-      File.open(@filename).each do |line|
+      File.open(@filename, encoding: "ISO-8859-1").each do |line|
         record = Record.new(line)
         case
         when record.header?
