@@ -10,6 +10,7 @@ module CodaStandard
       address: /^32.{8}(.{105})/,
       account: /^23\d{8}(\w+)\D/,
       bic: /^22.{96}(.{11})/,
+      detail_number: /^21.{4}(.{4})/,
       amount: /^21.{29}(\d{16})/,
       old_balance: /^1.{41}(\d)(\d{15})/,
       structured_communication: /^21.{60}(.{53})/,
@@ -82,6 +83,10 @@ module CodaStandard
       extract(:bic)
     end
 
+    def detail_number
+      extract(:detail_number)
+    end
+
     def currency
       extract(:currency)
     end
@@ -131,6 +136,8 @@ module CodaStandard
           clean_account(result)
         when :old_balance, :amount
           clean_zeros(result)
+        when :detail_number
+          clean_detail_number(result)
         when :structured_communication
           check_structured(result)
         else
@@ -139,7 +146,7 @@ module CodaStandard
     end
 
     def clean_address(address)
-      address.gsub(/\s+/, " ") 
+      address.gsub(/\s+/, " ")
     end
 
     def clean_account(account)
@@ -164,6 +171,10 @@ module CodaStandard
       amount_decimals = amount.scan(CLEAN_FIELDS[:clean_zeros])[0][1]
       separator = "."
       amount_sign + amount_integral + separator + amount_decimals
+    end
+
+    def clean_detail_number(number)
+      number.to_i.zero? ? nil : number.to_i
     end
 
     def check_structured(message)

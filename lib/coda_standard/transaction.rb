@@ -1,6 +1,6 @@
 module CodaStandard
   class Transaction
-    attr_accessor :name, :currency, :bic, :address, :amount, :account, :entry_date, :reference_number, :structured_communication
+    attr_accessor :name, :currency, :bic, :address, :amount, :account, :entry_date, :reference_number, :structured_communication, :detail_number
 
     def match_structured_communication(structured_communication)
       @structured_communication == structured_communication
