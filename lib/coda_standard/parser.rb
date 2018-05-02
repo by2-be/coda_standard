@@ -63,6 +63,7 @@ module CodaStandard
     def extract_data_movement1(record)
       @current_transaction.entry_date         = Date.strptime(record.entry_date, '%d%m%y')
       @current_transaction.reference_number   = record.reference_number
+      @current_transaction.detail_number   = record.detail_number
       @current_transaction.amount             = record.amount
       @current_transaction.structured_communication = record.structured_communication
     end
