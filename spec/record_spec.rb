@@ -9,6 +9,7 @@ describe CodaStandard::Record do
   let(:data_movement1b_record) {  CodaStandard::Record.new("21000100000001500000103        1000000000500860010415001500000UNSTRUCTURED COMMUNICATION MESSAGE                                      31031501601 0")}
   let(:data_movement2_record) {  CodaStandard::Record.new("2200010000                                                                                        GKCCBEBB                   1 0")}
   let(:data_movement3_record) {  CodaStandard::Record.new("2300010000BE53900754703405                  EURLASTNM PERSON                                                                 0 1")}
+  let(:data_detail_record) {  CodaStandard::Record.new("21000100010001500000103        0000000000500860010415001500001101100000834941                                      31031501601 0")}
   let(:data_information2_record) {  CodaStandard::Record.new("32000200015 STREET                                     3654 CITY BELGIQUE                                                    0 0")}
   let(:data_information2b_record) {  CodaStandard::Record.new("32000200015 STREET                                     3654    CITY BELGIQUE                                                    0 0")}
   let(:data_information2c_record) {  CodaStandard::Record.new("32000200015 STREET                                     3654    ST CITY BELGIQUE                                                  0 0")}
@@ -40,6 +41,16 @@ describe CodaStandard::Record do
 
     it "returns false if the line does not start with 21" do
       expect(header_record.data_movement1?).to be false
+    end
+  end
+
+  describe "data_detail" do
+    it "returns the detail number if detail record" do
+      expect(data_detail_record.detail_number).to eq 1
+    end
+
+    it "returns nil if no detail record" do
+      expect(data_movement1_record.detail_number).to be_nil
     end
   end
 
