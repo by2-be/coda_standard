@@ -13,6 +13,7 @@ module CodaStandard
       detail_number: /^21.{4}(.{4})/,
       amount: /^21.{29}(\d{16})/,
       old_balance: /^1.{41}(\d)(\d{15})/,
+      new_balance: /^8.{40}(\d)(\d{15})/,
       structured_communication: /^21.{60}(.{53})/,
       currencies: /(^.+)(AED|AFN|ALL|AMD|ANG|AOA|ARS|AUD|AWG|AZN|BAM|BBD|BDT|BGN|BHD|BIF|BMD|BND|BOB|BOV|BRL|BSD|BTN|BWP|BYR|BZD|CAD|CDF|CHE|CHF|CHW|CLF|CLP|CNY|COP|COU|CRC|CUC|CUP|CVE|CZK|DJF|DKK|DOP|DZD|EGP|ERN|ETB|EUR|FJD|FKP|GBP|GEL|GHS|GIP|GMD|GNF|GTQ|GYD|HKD|HNL|HRK|HTG|HUF|IDR|ILS|INR|IQD|IRR|ISK|JMD|JOD|JPY|KES|KGS|KHR|KMF|KPW|KRW|KWD|KYD|KZT|LAK|LBP|LKR|LRD|LSL|LTL|LVL|LYD|MAD|MDL|MGA|MKD|MMK|MNT|MOP|MRO|MUR|MVR|MWK|MXN|MXV|MYR|MZN|NAD|NGN|NIO|NOK|NPR|NZD|OMR|PAB|PEN|PGK|PHP|PKR|PLN|PYG|QAR|RON|RSD|RUB|RWF|SAR|SBD|SCR|SDG|SEK|SGD|SHP|SLL|SOS|SRD|SSP|STD|SVC|SYP|SZL|THB|TJS|TMT|TND|TOP|TRY|TTD|TWD|TZS|UAH|UGX|USD|USN|USS|UYI|UYU|UZS|VEF|VND|VUV|WST|XAF|XAG|XAU|XBA|XBB|XBC|XBD|XCD|XDR|XFU|XOF|XPD|XPF|XPT|XSU|XTS|XUA|XXX|YER|ZAR|ZMW|ZWL)/
     }
@@ -37,6 +38,10 @@ module CodaStandard
 
     def data_old_balance?
       @line.start_with? "1"
+    end
+
+    def data_new_balance?
+      @line.start_with? "8"
     end
 
     def data_movement1?
@@ -65,6 +70,10 @@ module CodaStandard
 
     def old_balance
       extract(:old_balance)
+    end
+
+    def new_balance
+      extract(:new_balance)
     end
 
     def entry_date
@@ -108,7 +117,7 @@ module CodaStandard
     end
 
     def valid?
-      if data_old_balance?
+      if data_old_balance? 
         return false if !field_valid?(:current_account)
       end
       true
@@ -134,7 +143,7 @@ module CodaStandard
           clean_address(result)
         when :current_account
           clean_account(result)
-        when :old_balance, :amount
+        when :old_balance, :new_balance, :amount
           clean_zeros(result)
         when :detail_number
           clean_detail_number(result)

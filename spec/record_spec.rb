@@ -3,7 +3,7 @@ require_relative 'spec_helper'
 describe CodaStandard::Record do
 
   let(:header_record) { CodaStandard::Record.new("0000031031520005                  MMIF SA/BANK              GEBABEBB   00538839354 00000                                       2")}
-  let(:old_balance_data_record) {  CodaStandard::Record.new("10016539007547034 EUR0BE                  0000000057900000300315MMIF SA/EVOCURE                                              017")}
+  let(:old_balance_data_record) {  CodaStandard::Record.new("10016539007547034 eur0be                  0000000057900000300315mmif sa/evocure                                              017")}
   let(:old_balance_data_record_invalid) {  CodaStandard::Record.new("100/0000/00135")}
   let(:data_movement1_record) {  CodaStandard::Record.new("21000100000001500000103        0000000000500860010415001500001101100000834941                                      31031501601 0")}
   let(:data_movement1b_record) {  CodaStandard::Record.new("21000100000001500000103        1000000000500860010415001500000UNSTRUCTURED COMMUNICATION MESSAGE                                      31031501601 0")}
@@ -13,6 +13,7 @@ describe CodaStandard::Record do
   let(:data_information2_record) {  CodaStandard::Record.new("32000200015 STREET                                     3654 CITY BELGIQUE                                                    0 0")}
   let(:data_information2b_record) {  CodaStandard::Record.new("32000200015 STREET                                     3654    CITY BELGIQUE                                                    0 0")}
   let(:data_information2c_record) {  CodaStandard::Record.new("32000200015 STREET                                     3654    ST CITY BELGIQUE                                                  0 0")}
+  let(:new_balance_data_record) {  CodaStandard::Record.new("8016035918134040 EUR0BE                  0000000058900000310315                                                                0")}
 
   describe "data_header" do
     it "returns true if the line starts with a zero" do
@@ -21,6 +22,12 @@ describe CodaStandard::Record do
 
     it "returns false if the line does not start with a zero" do
       expect(old_balance_data_record.header?).to be false
+    end
+  end
+
+  describe "data_new_balance" do
+    it "returns true if the line starts with a eight" do
+      expect(new_balance_data_record.data_new_balance?).to be true
     end
   end
 
@@ -99,6 +106,12 @@ describe CodaStandard::Record do
   describe "old_balance" do
     it "extracts the old_balance" do
       expect(old_balance_data_record.old_balance).to eq("57900.000")
+    end
+  end
+
+  describe "new_balance" do
+    it "extracts the old_balance" do
+      expect(new_balance_data_record.new_balance).to eq("58900.000")
     end
   end
 

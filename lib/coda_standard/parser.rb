@@ -1,6 +1,6 @@
 module CodaStandard
   class Parser
-    attr_reader :transactions, :old_balance, :current_bic, :current_account, :current_transaction, :current_transaction_list
+    attr_reader :transactions, :old_balance, :new_balance, :current_bic, :current_account, :current_transaction, :current_transaction_list
 
     def initialize(filename)
       @filename            = filename
@@ -28,6 +28,8 @@ module CodaStandard
         when record.data_old_balance?
           set_account(record.current_account)
           @current_transaction_list.old_balance = record.old_balance
+        when record.data_new_balance?
+          @current_transaction_list.new_balance = record.new_balance
         when record.data_movement1?
           create_transaction
           extract_data_movement1(record)
@@ -84,7 +86,7 @@ module CodaStandard
       @transactions.each_with_index do |transaction, index|
         puts "**--Transaction List #{ index + 1 }--**\n\n"
         puts "Account: #{transaction.current_account} Account type: #{transaction.current_account_type} BIC: #{transaction.current_bic}"
-        puts "Old balance: #{transaction.old_balance} \n\n"
+        puts "Old balance: #{transaction.old_balance} \nNew balance: #{transaction.new_balance} \n\n"
         transaction.each_with_index do |transaction, index|
           puts "-- Transaction n.#{index + 1} - number #{transaction.structured_communication} - in date #{transaction.entry_date}-- \n\n"
           puts "   RN: #{transaction.reference_number} Account: #{transaction.account} BIC: #{transaction.bic}"
