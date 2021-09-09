@@ -1,6 +1,8 @@
 module CodaStandard
   class Transaction
-    attr_accessor :name, :currency, :bic, :address, :amount, :account, :entry_date, :reference_number, :structured_communication, :detail_number
+    attr_accessor :name, :currency, :bic, :address, :amount, :account,
+      :entry_date, :reference_number, :structured_communication, :detail_number,
+      :client_reference
 
     def match_structured_communication(structured_communication)
       @structured_communication == structured_communication
@@ -11,7 +13,7 @@ module CodaStandard
     end
 
     def amount_money
-      "#{ amount_cents.to_s.insert(-3, ',') } #{ @currency }"
+      "#{amount_cents.to_s.insert(-3, ",")} #{@currency}"
     end
   end
 end

@@ -3,8 +3,8 @@ module CodaStandard
     attr_reader :transactions, :old_balance, :new_balance, :current_bic, :current_account, :current_transaction, :current_transaction_list
 
     def initialize(filename)
-      @filename            = filename
-      @transactions        = []
+      @filename = filename
+      @transactions = []
       @current_transaction_list = TransactionList.new
       @current_transaction = Transaction.new
     end
@@ -45,12 +45,12 @@ module CodaStandard
     end
 
     def set_address(address)
-      @current_transaction.address  = address
+      @current_transaction.address = address
     end
 
     def set_account(account)
-     @current_transaction_list.current_account      = account[:account_number]
-     @current_transaction_list.current_account_type = account[:account_type]
+      @current_transaction_list.current_account = account[:account_number]
+      @current_transaction_list.current_account_type = account[:account_type]
     end
 
     def create_transaction
@@ -63,28 +63,29 @@ module CodaStandard
     end
 
     def extract_data_movement1(record)
-      @current_transaction.entry_date         = Date.strptime(record.entry_date, '%d%m%y')
-      @current_transaction.reference_number   = record.reference_number
-      @current_transaction.detail_number   = record.detail_number
-      @current_transaction.amount             = record.amount
+      @current_transaction.entry_date = Date.strptime(record.entry_date, "%d%m%y")
+      @current_transaction.reference_number = record.reference_number
+      @current_transaction.detail_number = record.detail_number
+      @current_transaction.amount = record.amount
       @current_transaction.structured_communication = record.structured_communication
     end
 
     def extract_data_movement2(record)
-       @current_transaction.bic = record.bic
+      @current_transaction.bic = record.bic
+      @current_transaction.client_reference = record.client_reference
     end
 
     def extract_data_movement3(record)
       @current_transaction.currency = record.currency
-      @current_transaction.name     = record.name
-      @current_transaction.account  = record.account
+      @current_transaction.name = record.name
+      @current_transaction.account = record.account
     end
 
     def show(skip_validation: skip_validation = false)
       puts "The file is invalid" if !skip_validation && !valid?
       parse(skip_validation: skip_validation)
       @transactions.each_with_index do |transaction, index|
-        puts "**--Transaction List #{ index + 1 }--**\n\n"
+        puts "**--Transaction List #{index + 1}--**\n\n"
         puts "Account: #{transaction.current_account} Account type: #{transaction.current_account_type} BIC: #{transaction.current_bic}"
         puts "Old balance: #{transaction.old_balance} \nNew balance: #{transaction.new_balance} \n\n"
         transaction.each_with_index do |transaction, index|
