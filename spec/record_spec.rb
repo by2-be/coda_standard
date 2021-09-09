@@ -1,19 +1,19 @@
-require_relative 'spec_helper'
+require_relative "spec_helper"
 
 describe CodaStandard::Record do
-
-  let(:header_record) { CodaStandard::Record.new("0000031031520005                  MMIF SA/BANK              GEBABEBB   00538839354 00000                                       2")}
-  let(:old_balance_data_record) {  CodaStandard::Record.new("10016539007547034 eur0be                  0000000057900000300315mmif sa/evocure                                              017")}
-  let(:old_balance_data_record_invalid) {  CodaStandard::Record.new("100/0000/00135")}
-  let(:data_movement1_record) {  CodaStandard::Record.new("21000100000001500000103        0000000000500860010415001500001101100000834941                                      31031501601 0")}
-  let(:data_movement1b_record) {  CodaStandard::Record.new("21000100000001500000103        1000000000500860010415001500000UNSTRUCTURED COMMUNICATION MESSAGE                                      31031501601 0")}
-  let(:data_movement2_record) {  CodaStandard::Record.new("2200010000                                                                                        GKCCBEBB                   1 0")}
-  let(:data_movement3_record) {  CodaStandard::Record.new("2300010000BE53900754703405                  EURLASTNM PERSON                                                                 0 1")}
-  let(:data_detail_record) {  CodaStandard::Record.new("21000100010001500000103        0000000000500860010415001500001101100000834941                                      31031501601 0")}
-  let(:data_information2_record) {  CodaStandard::Record.new("32000200015 STREET                                     3654 CITY BELGIQUE                                                    0 0")}
-  let(:data_information2b_record) {  CodaStandard::Record.new("32000200015 STREET                                     3654    CITY BELGIQUE                                                    0 0")}
-  let(:data_information2c_record) {  CodaStandard::Record.new("32000200015 STREET                                     3654    ST CITY BELGIQUE                                                  0 0")}
-  let(:new_balance_data_record) {  CodaStandard::Record.new("8016035918134040 EUR0BE                  0000000058900000310315                                                                0")}
+  let(:header_record) { CodaStandard::Record.new("0000031031520005                  MMIF SA/BANK              GEBABEBB   00538839354 00000                                       2") }
+  let(:old_balance_data_record) { CodaStandard::Record.new("10016539007547034 eur0be                  0000000057900000300315mmif sa/evocure                                              017") }
+  let(:old_balance_data_record_invalid) { CodaStandard::Record.new("100/0000/00135") }
+  let(:data_movement1_record) { CodaStandard::Record.new("21000100000001500000103        0000000000500860010415001500001101100000834941                                      31031501601 0") }
+  let(:data_movement1b_record) { CodaStandard::Record.new("21000100000001500000103        1000000000500860010415001500000UNSTRUCTURED COMMUNICATION MESSAGE                                      31031501601 0") }
+  let(:data_movement2_record) { CodaStandard::Record.new("2200010000                                                                                        GKCCBEBB                   1 0") }
+  let(:data_movement2b_record) { CodaStandard::Record.new("2200040011/60                                                  client reference ABCDEFGHIJKLMN    GKCCBEBB                   1 0") }
+  let(:data_movement3_record) { CodaStandard::Record.new("2300010000BE53900754703405                  EURLASTNM PERSON                                                                 0 1") }
+  let(:data_detail_record) { CodaStandard::Record.new("21000100010001500000103        0000000000500860010415001500001101100000834941                                      31031501601 0") }
+  let(:data_information2_record) { CodaStandard::Record.new("32000200015 STREET                                     3654 CITY BELGIQUE                                                    0 0") }
+  let(:data_information2b_record) { CodaStandard::Record.new("32000200015 STREET                                     3654    CITY BELGIQUE                                                    0 0") }
+  let(:data_information2c_record) { CodaStandard::Record.new("32000200015 STREET                                     3654    ST CITY BELGIQUE                                                  0 0") }
+  let(:new_balance_data_record) { CodaStandard::Record.new("8016035918134040 EUR0BE                  0000000058900000310315                                                                0") }
 
   describe "data_header" do
     it "returns true if the line starts with a zero" do
@@ -99,7 +99,7 @@ describe CodaStandard::Record do
 
   describe "current_account" do
     it "extracts the current_account" do
-      expect(old_balance_data_record.current_account).to eq({account_number:"539007547034", account_type:"bban_be_account"})
+      expect(old_balance_data_record.current_account).to eq({ account_number: "539007547034", account_type: "bban_be_account" })
     end
   end
 
@@ -140,6 +140,12 @@ describe CodaStandard::Record do
   describe "bic" do
     it "extracts the bic" do
       expect(data_movement2_record.bic).to eq("GKCCBEBB")
+    end
+  end
+
+  describe "client_reference" do
+    it "extracts the client_reference" do
+      expect(data_movement2b_record.client_reference).to eq("client reference ABCDEFGHIJKLMN")
     end
   end
 
