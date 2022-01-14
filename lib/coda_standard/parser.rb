@@ -1,6 +1,6 @@
 module CodaStandard
   class Parser
-    attr_reader :transactions, :old_balance, :new_balance, :current_bic, :current_account, :current_transaction, :current_transaction_list
+    attr_reader :transactions, :old_balance, :new_balance, :current_bic, :current_account, :current_transaction, :current_transaction_list, :date_new_balance
 
     def initialize(filename)
       @filename = filename
@@ -29,6 +29,7 @@ module CodaStandard
           set_account(record.current_account)
           @current_transaction_list.old_balance = record.old_balance
         when record.data_new_balance?
+          set_date_new_balance(record)
           @current_transaction_list.new_balance = record.new_balance
         when record.data_movement1?
           create_transaction
@@ -60,6 +61,10 @@ module CodaStandard
     def create_transaction_list
       @current_transaction_list = TransactionList.new
       @transactions << @current_transaction_list
+    end
+
+    def set_date_new_balance(record)
+      @current_transaction_list.date_new_balance = Date.strptime(record.date_new_balance, "%d%m%y")
     end
 
     def extract_data_movement1(record)
