@@ -14,6 +14,7 @@ describe CodaStandard::Record do
   let(:data_information2b_record) { CodaStandard::Record.new("32000200015 STREET                                     3654    CITY BELGIQUE                                                    0 0") }
   let(:data_information2c_record) { CodaStandard::Record.new("32000200015 STREET                                     3654    ST CITY BELGIQUE                                                  0 0") }
   let(:new_balance_data_record) { CodaStandard::Record.new("8016035918134040 EUR0BE                  0000000058900000140122                                                                0") }
+  let(:new_balance_data_record_negative) { CodaStandard::Record.new("8016035918134040 EUR0BE                  1000000058900000140122                                                                0") }
 
   describe "data_header" do
     it "returns true if the line starts with a zero" do
@@ -112,6 +113,10 @@ describe CodaStandard::Record do
   describe "new_balance" do
     it "extracts the new_balance" do
       expect(new_balance_data_record.new_balance).to eq("58900.000")
+    end
+
+    it "extracts negative values" do
+      expect(new_balance_data_record_negative.new_balance).to eq("-58900.000")
     end
   end
 
