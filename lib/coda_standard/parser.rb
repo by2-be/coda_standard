@@ -29,8 +29,7 @@ module CodaStandard
           set_account(record.current_account)
           @current_transaction_list.old_balance = record.old_balance
         when record.data_new_balance?
-          set_date_new_balance(record)
-          @current_transaction_list.new_balance = record.new_balance
+          set_balance_data(record)
         when record.data_movement1?
           create_transaction
           extract_data_movement1(record)
@@ -42,6 +41,7 @@ module CodaStandard
           set_address(record.address)
         end
       end
+
       @transactions
     end
 
@@ -63,8 +63,14 @@ module CodaStandard
       @transactions << @current_transaction_list
     end
 
-    def set_date_new_balance(record)
-      @current_transaction_list.date_new_balance = Date.strptime(record.date_new_balance, "%d%m%y")
+    def set_balance_data(record)
+      if record.defines_balance?
+        @current_transaction_list.new_balance = record.new_balance
+        @current_transaction_list.date_new_balance = Date.strptime(record.date_new_balance, "%d%m%y")
+      else
+        # unset old balance as we only know the situation now
+        @current_transaction_list.old_balance = nil
+      end
     end
 
     def extract_data_movement1(record)

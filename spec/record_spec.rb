@@ -14,6 +14,7 @@ describe CodaStandard::Record do
   let(:data_information2b_record) { CodaStandard::Record.new("32000200015 STREET                                     3654    CITY BELGIQUE                                                    0 0") }
   let(:data_information2c_record) { CodaStandard::Record.new("32000200015 STREET                                     3654    ST CITY BELGIQUE                                                  0 0") }
   let(:new_balance_data_record) { CodaStandard::Record.new("8016035918134040 EUR0BE                  0000000058900000140122                                                                0") }
+  let(:new_balance_data_record_not_present) { CodaStandard::Record.new("8001BE28097913160020                  EUR0000000000000000000000                                                                0") }
   let(:new_balance_data_record_negative) { CodaStandard::Record.new("8016035918134040 EUR0BE                  1000000058900000140122                                                                0") }
 
   describe "data_header" do
@@ -108,6 +109,10 @@ describe CodaStandard::Record do
     it "extracts the old_balance" do
       expect(old_balance_data_record.old_balance).to eq("57900.000")
     end
+
+    it "returns nil if no new balance is present" do
+      expect(new_balance_data_record_not_present.old_balance).to be_nil
+    end
   end
 
   describe "new_balance" do
@@ -118,11 +123,19 @@ describe CodaStandard::Record do
     it "extracts negative values" do
       expect(new_balance_data_record_negative.new_balance).to eq("-58900.000")
     end
+
+    it "returns nil if no new balance is present" do
+      expect(new_balance_data_record_not_present.new_balance).to be_nil
+    end
   end
 
   describe "date_new_balance" do
     it "extracts the date new balance" do
       expect(new_balance_data_record.date_new_balance).to eq("140122")
+    end
+
+    it "returns nil if no new balance is present" do
+      expect(new_balance_data_record_not_present.date_new_balance).to be_nil
     end
   end
 

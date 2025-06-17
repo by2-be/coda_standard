@@ -71,15 +71,25 @@ module CodaStandard
     end
 
     def old_balance
+      return nil unless defines_balance?
+
       extract(:old_balance)
     end
 
     def new_balance
+      return nil unless defines_balance?
+
       extract(:new_balance)
     end
 
     def date_new_balance
+      return nil unless defines_balance?
+
       extract(:date_new_balance)
+    end
+
+    def defines_balance?
+      extract(:date_new_balance) != "000000"
     end
 
     def entry_date
